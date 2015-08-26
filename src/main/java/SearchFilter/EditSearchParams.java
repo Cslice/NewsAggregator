@@ -1,10 +1,10 @@
-package Login;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+package SearchFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cameronthomas
  */
-@WebServlet(urlPatterns = {"/ValidateSignIn"})
-public class ValidateSignIn extends HttpServlet {
+@WebServlet(name = "EditSearchParams", urlPatterns = {"/EditSearchParams"})
+public class EditSearchParams extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,7 +27,7 @@ public class ValidateSignIn extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs 
+     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -38,10 +38,10 @@ public class ValidateSignIn extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ValidateSignIn</title>");            
+            out.println("<title>Servlet EditSearchParams</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ValidateSignIn at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditSearchParams at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
