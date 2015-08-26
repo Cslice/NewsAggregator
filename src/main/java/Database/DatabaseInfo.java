@@ -23,7 +23,7 @@ public class DatabaseInfo {
         String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
         
         // Using opehsift enviroment
-        if(!StringUtils.isNullOrEmpty(user))
+        if(!StringUtils.isNullOrEmpty(host))
         {  
             String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
             
