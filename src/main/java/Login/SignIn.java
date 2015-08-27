@@ -40,9 +40,7 @@ public class SignIn extends HttpServlet {
         String password = request.getParameter("password");
         
         if(validateLogin(username, password))
-        {
             new GenerateHomepage().generatePage(request, response); 
-        }
         else
             response.sendRedirect("invalidLogin.html"); 
     }
@@ -55,15 +53,7 @@ public class SignIn extends HttpServlet {
     {
         boolean validLogin = false;
         String query = "Select username, password FROM user";
-        ResultSet rs = null;
-        
-        // Variables need for database setup
-        DatabaseInfo databaseInfo = new DatabaseInfo();         
-        String db_url = databaseInfo.getDb_url();
-        String db_username = databaseInfo.getUser();
-        String db_password = databaseInfo.getPass();
-        
-       rs = new DatabaseAPI().readDatabase(db_url, query, db_username, db_password);
+        ResultSet rs = new DatabaseAPI().readDatabase(query);
         
         // Check if username and password are valid
         try
@@ -74,8 +64,6 @@ public class SignIn extends HttpServlet {
                    rs.getString("password").equals(password))
                 {
                     validLogin = true;
-                    System.out.print("username: " + rs.getString("username"));
-                    System.out.print(", pass: " + rs.getString("password"));
                     break;
                 }
             }

@@ -12,31 +12,39 @@ import java.sql.*;
  * @author cameronthomas
  */
 public class DatabaseAPI {
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static String db_url = "";
-
-   //  DatabaseAPI credentials
-   static String user = "";
-   static String pass = "";
+   String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   String databaseURL = "";
+   String username;
+   String password;
+   Connection conn;
+   Statement stmt;
+   ResultSet rs;
+   DatabaseInfo databaseInfo;
    
-   static Connection conn = null;
-   static Statement stmt = null;
+   public DatabaseAPI()
+   {
+        databaseInfo = new DatabaseInfo();
+        databaseURL = databaseInfo.getDb_url();
+        username = databaseInfo.getUser();
+        password = databaseInfo.getPass();
+        stmt = null;
+        rs = null;
+        
+        startDatabaseConnection();  
+   }
     
     /**
      *
      * 
      */
-    public Connection getDatabaseConnection(String databaseURL, String username, String password)
-    {
-        Connection conn = null;
-        
+    private Connection startDatabaseConnection()
+    {          
         try
         {
             // Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER);
 
             // Open a connection
-            System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(databaseURL,username,password);
         }
         catch(SQLException se){
@@ -55,15 +63,11 @@ public class DatabaseAPI {
      *
      * 
      */
-    public ResultSet readDatabase(String databaseURL, String query,  String username, String password)
-    {
-        conn = getDatabaseConnection(databaseURL, username, password);
-        ResultSet rs = null;
-        
+    public ResultSet readDatabase(String query)
+    {    
         try
         {
-            stmt = conn.createStatement(); 
-            stmt = conn.prepareStatement(username);
+            stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
         } 
         catch(SQLException se)
@@ -81,7 +85,29 @@ public class DatabaseAPI {
      */
     public void updateDatabase(String query)
     {
-        
+        try
+        {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+        } 
+        catch(SQLException se)
+        {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }  
+        finally{
+            //finally block used to close resources
+            try{
+               if(stmt!=null)
+                  conn.close();
+            }catch(SQLException se){
+            }// do nothing
+            try{
+               if(conn!=null)
+                  conn.close();
+            }catch(SQLException se){
+               se.printStackTrace();
+            }
+        }//end finally try
     }
-    
 }
