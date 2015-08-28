@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,7 +41,16 @@ public class SignIn extends HttpServlet {
         String password = request.getParameter("password");
         
         if(validateLogin(username, password))
-            new GenerateHomepage().generatePage(request, response); 
+        {
+            // Create new session for user
+            HttpSession session = request.getSession();
+            session.setAttribute("user", username);
+            //session.invalidate();
+            
+            // Direct user to homepage
+            new GenerateHomepage().generatePage(request, response);  
+            
+        }
         else
             response.sendRedirect("invalidLogin.html"); 
     }

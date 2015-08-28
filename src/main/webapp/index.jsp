@@ -39,17 +39,16 @@
 
     <div class="container">
 
-      <form class="form-signin" method="POST" action="CreateAccount">
-        <h2 class="form-signin-heading">Please enter the following</h2>
+      <form class="form-signin" method="POST" action="SignIn">
+        <h2 class="form-signin-heading">Please sign in</h2>
        
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="password" class="sr-only">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>      
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <br />
-        <a href="index.html">Back to sign-in page</a>
+        <a href="createAccount.jsp">Create Account</a>
       </form>
-        
-        
     </div> <!-- /container -->
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
