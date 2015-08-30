@@ -49,7 +49,6 @@ public class SignIn extends HttpServlet {
             
             // Direct user to homepage
             new GenerateHomepage().generatePage(request, response);  
-            
         }
         else
             response.sendRedirect("invalidLogin.html"); 
