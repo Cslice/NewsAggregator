@@ -100,23 +100,17 @@ public class EditSearchParams extends HttpServlet {
                 break;       
         }
 
-        
-       
-        final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word2.txt");
-        final PrintStream printStream2 = new PrintStream(os2);
+
 //        printStream2.println(word);
 //        printStream2.println(username);
 //        printStream2.println(typeOfWord);
 //        printStream2.println(typeOfTransAction);
 
-        printStream2.println("hi");
 
         
         //printStream2.println(insertQuery);
        
-        
-       
-        printStream2.close();
+
     }
 
     /**
