@@ -44,6 +44,5 @@ public class NewsStation {
     
     public void setArticleList(List<HashMap<String, String>> articleList) {
         this.articleList = articleList;
-    }
-    
+    }   
 }

@@ -7,9 +7,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:if test="${sessionScope.user == null}" > 
-   <c:redirect url="index.jsp"/>
-</c:if>
+<%--<c:if test="${sessionScope != null}" > 
+   <c:redirect url="/SignIn"/>
+</c:if>--%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,18 +88,31 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Cnn.svg/2000px-Cnn.svg.png" alt="CNN photo" style="width:250px;height:100px;"/>
-        ${noThreadsLabel}
-        <c:forEach var="thread" items="${threadList}">       
-                <a href="ViewPostsPage?threadName=${thread[0]}&username=${username}" class="list-group-item">
-                   <h4>${thread[0]}</h4> 
-                            ${thread[1]} <br />
-                            ${thread[2]}
-                </a>
+        
+        
+        <c:forEach var="station" items="${newsStationList}"> 
+            <div class="list-group-item">          
+                <img src="${station.getImgHtml()}" alt="${station.getName()} photo" style="width:250px;height:100px;"/>
+                <br />
+                <br />
+                <ol>
+                <c:forEach var="article" items="${station.getArticleList()}">
+                    <%--<c:out value="${article.get('title')}"/>--%>
+                    <!--<br />-->
+                    <%--<c:out value="${article.get('link')}"/>--%>
+                    <!--<br />-->
+
+                    <li><a href="${article.get('link')}">${article.get('title')}</a></li>
+    <!--                <br />
+                    <br />-->
+                </c:forEach>
+                </ol>
+            </div>
         </c:forEach>
         <br />
         
-            
+                    <a href="editSearchParams.jsp">Edit Search Parameters</a>
+
         </div>
       </div>
     </div> <!-- /container -->

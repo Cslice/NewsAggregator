@@ -5,6 +5,8 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,8 +22,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -45,22 +46,20 @@ public class GenerateHomepage {
     private String title;
     private String link;
     private Date date;
-    
-    
+    private String listItem;
+     
     public GenerateHomepage()
     {
         newsStationList = new ArrayList();
         setUpNewsSationList();
-        input = new SyndFeedInput(); 
-       
+        input = new SyndFeedInput();    
     }
  
-
     public void generatePage(HttpServletRequest request, HttpServletResponse response)
     {
         try 
         {    
-            aggregateRssFeeds();
+            //aggregateRssFeeds();
             request.setAttribute("newsStationList", newsStationList);
             //response.sendRedirect("homepage.jsp");
             request.getRequestDispatcher("homepage.jsp").forward(request, response);      
@@ -76,17 +75,14 @@ public class GenerateHomepage {
     public void aggregateRssFeeds()
     {
         try
-        {   
-                        
+        {                
             final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/list.txt");
             final PrintStream printStream2 = new PrintStream(os2);
     
             for(NewsStation station: newsStationList )
             {
                 feedUrl = station.getRssUrl();
-
                 articleList = new ArrayList();
-
                 SyndFeed feed = input.build (new XmlReader(feedUrl));
                 
                 // Count to keep track of number of articles for station
@@ -95,11 +91,10 @@ public class GenerateHomepage {
            
                 for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) 
                 {
-                    link = entry.getLink();
-                   
+                    link = entry.getLink();                
                     Document doc = Jsoup.connect(link).get();
                     
-                    if(!doc.toString().contains("rape"))
+                    if(!doc.toString().contains("teedle"))
                     {
                          printStream2.println("no rape");
                     
@@ -112,6 +107,8 @@ public class GenerateHomepage {
                         article.put("title", entry.getTitle());
                         article.put("link", entry.getLink());
                         article.put("date", date.toString());
+                        
+                       
                         articleList.add(article);
                         
                         count++; 
@@ -158,22 +155,25 @@ public class GenerateHomepage {
     {
         try
         {
-            newsStationList.add(new NewsStation("imgage html", "Fox News",
+            newsStationList.add(new NewsStation("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Fox_News_Channel_logo.png/400px-Fox_News_Channel_logo.png",
+                                "Fox News",
                                 new URL("http://feeds.foxnews.com/foxnews/latest")));
 
-            newsStationList.add(new NewsStation("imgage html", "CNN",
+            newsStationList.add(new NewsStation("https://upload.wikimedia.org/"
+                                + "wikipedia/commons/thumb/8/8b/Cnn.svg/460px-Cnn.svg.png",
+                                "CNN",
                                 new URL("http://rss.cnn.com/rss/cnn_topstories.rss")));
 
-            newsStationList.add(new NewsStation("imgage html", "ABC News",
+            newsStationList.add(new NewsStation("https://upload.wikimedia.org/wikipedia/en/f/fa/ABCNewsLogo.png", "ABC News",
                                 new URL("http://feeds.abcnews.com/abcnews/topstories")));
 
-            newsStationList.add(new NewsStation("imgage html", "Deseret News",
+            newsStationList.add(new NewsStation("http://www.deseretnews.com/img/masthead/deseret-news-mast-@2x.png", "Deseret News",
                                 new URL("http://www.deseretnews.com/news/index.rss")));
 
-            newsStationList.add(new NewsStation("imgage html", "Local News 8",
+            newsStationList.add(new NewsStation("http://www.localnews8.com/image/view/-/19411376/highRes/2/-/50ax11/-/site-header-logo-png.png", "Local News 8",
                                 new URL("http://www.localnews8.com/14412868?format=rss_2.0&view=feed")));
 
-            newsStationList.add(new NewsStation("imgage html", "ESPN",
+            newsStationList.add(new NewsStation("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/440px-ESPN_wordmark.svg.png", "ESPN",
                                 new URL("http://sports.espn.go.com/espn/rss/news")));
         }
         catch(MalformedURLException ex)

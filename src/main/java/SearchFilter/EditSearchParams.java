@@ -6,7 +6,10 @@
 
 package SearchFilter;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,7 +76,47 @@ public class EditSearchParams extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String word = request.getParameter("wordToAdd");
+        String typeOfTransAction = request.getParameter("typeOfTransAction");
+        String typeOfWord = "";
+        String username = request.getSession(false).getAttribute("username").toString();
+        EditWordsInDatabase editWord = new EditWordsInDatabase(username);
+            
+        switch (typeOfTransAction)
+        {
+            case "AddExcludeWord":
+                typeOfWord = "words_to_exclude";
+                editWord.addWord(word, typeOfWord);
+                break;          
+            case "DeleteExcludeWord":
+                typeOfWord = "words_to_exclude";
+                break;      
+            case "AddIncludeWord":
+                typeOfWord = "words_to_include";
+                editWord.addWord(word, typeOfWord);
+                break;          
+            case "DeleteIncludeWord":
+                typeOfWord = "words_to_include";
+                break;       
+        }
+
+        
+       
+        final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word2.txt");
+        final PrintStream printStream2 = new PrintStream(os2);
+//        printStream2.println(word);
+//        printStream2.println(username);
+//        printStream2.println(typeOfWord);
+//        printStream2.println(typeOfTransAction);
+
+        printStream2.println("hi");
+
+        
+        //printStream2.println(insertQuery);
+       
+        
+       
+        printStream2.close();
     }
 
     /**

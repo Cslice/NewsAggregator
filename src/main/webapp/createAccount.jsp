@@ -1,9 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:if test="${sessionScope.user != null}" > 
-   <c:redirect url="homepage.jsp"/>
-</c:if>
+<%--<c:if test="${sessionScope != null}" > 
+   <c:redirect url="/SignIn"/>
+</c:if>--%>
 
 <!DOCTYPE html>
 <html lang="en">

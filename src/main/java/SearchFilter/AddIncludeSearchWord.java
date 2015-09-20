@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-package Account;
+package SearchFilter;
 
 import Database.DatabaseAPI;
-import Database.DatabaseInfo;
-import Homepage.GenerateHomepage;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,14 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author cameronthomas
  */
-@WebServlet(name = "CreateAccount", urlPatterns = {"/CreateAccount"})
-public class CreateAccount extends HttpServlet {
+@WebServlet(name = "AddIncludeSearchWord", urlPatterns = {"/AddIncludeSearchWord"})
+public class AddIncludeSearchWord extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +44,10 @@ public class CreateAccount extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateAccount</title>");            
+            out.println("<title>Servlet AddIncludeSearchWord</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateAccount at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddIncludeSearchWord at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -79,22 +79,26 @@ public class CreateAccount extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        if(validateNewUsername(username))
-        {
-            insertNewUser(username, password);
-            HttpSession session = request.getSession(true);
-            session.setAttribute("username", username);
-            
-            new GenerateHomepage().generatePage(request, response); 
-        }
-        else
-            response.sendRedirect("invalidNewAccount.html"); 
-        
-    }
+        String word = request.getParameter("wordToAdd");
+        String typeOfWord = "words_to_include";
+        String username = request.getSession(false).getAttribute("username").toString();
 
+        
+        final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word.txt");
+        final PrintStream printStream2 = new PrintStream(os2);
+        
+        printStream2.println(word);
+        printStream2.println(username);
+        
+        //printStream2.println(insertQuery);
+        EditWordsInDatabase editWord = new EditWordsInDatabase(username);
+        printStream2.println(editWord.addWord(word, typeOfWord));
+        
+       
+        printStream2.close();
+
+    }
+   
     /**
      * Returns a short description of the servlet.
      *
@@ -104,42 +108,5 @@ public class CreateAccount extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    private boolean validateNewUsername(String username)
-    {
-        boolean validUsername = true;
-        String query = "Select username FROM user";
-        DatabaseAPI database = new DatabaseAPI();
-        ResultSet rs = database.readDatabase(query);
-        
-        // Check if username and password are valid
-        try
-        {       
-            while(rs.next())
-            {
-                if(rs.getString("username").equals(username))
-                {
-                    validUsername = false;  
-                    break;
-                }
-            }
-        }
-        catch(SQLException se){
-        //Handle errors for JDBC
-        se.printStackTrace();
-        } 
-        finally
-        {
-            database.closeDatabase();
-        }
-        return validUsername;
-    }
-    
-    private void insertNewUser(String username, String password)
-    {
-        String query = "INSERT INTO user(username,password) "
-                + "values(\"" + username + "\", \"" + password + "\");";
-        new DatabaseAPI().updateDatabase(query);  
-    }
 
 }

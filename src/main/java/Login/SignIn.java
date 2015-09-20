@@ -9,7 +9,10 @@ package Login;
 import Database.DatabaseAPI;
 import Database.DatabaseInfo;
 import Homepage.GenerateHomepage;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,14 +42,18 @@ public class SignIn extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+                
+//        request.getSession(false);
         
         if(validateLogin(username, password))
         {
             // Create new session for user
-            HttpSession session = request.getSession();
-            session.setAttribute("user", username);
-            //session.invalidate();
             
+            HttpSession session = request.getSession(true);
+            session.setAttribute("username", username);
+            session.setAttribute("username", username);
+            //session.invalidate();
+                 
             // Direct user to homepage
             new GenerateHomepage().generatePage(request, response);  
         }
@@ -61,8 +68,10 @@ public class SignIn extends HttpServlet {
     private boolean validateLogin(String username, String password)
     {
         boolean validLogin = false;
-        String query = "Select username, password FROM user";
-        ResultSet rs = new DatabaseAPI().readDatabase(query);
+        int databaseId = 0;
+        String query = "Select * FROM user";
+        DatabaseAPI database = new DatabaseAPI();
+        ResultSet rs = database.readDatabase(query);
         
         // Check if username and password are valid
         try
@@ -73,6 +82,7 @@ public class SignIn extends HttpServlet {
                    rs.getString("password").equals(password))
                 {
                     validLogin = true;
+                    databaseId = rs.getInt("id");
                     break;
                 }
             }
@@ -81,6 +91,25 @@ public class SignIn extends HttpServlet {
         //Handle errors for JDBC
         se.printStackTrace();
         } 
+        finally
+        {
+            database.closeDatabase();
+        }
         return validLogin;
     }
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
 }

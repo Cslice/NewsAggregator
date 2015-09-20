@@ -7,6 +7,8 @@
 package Database;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author cameronthomas
@@ -64,11 +66,13 @@ public class DatabaseAPI {
      * 
      */
     public ResultSet readDatabase(String query)
-    {    
+    {  
         try
         {
             stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
+            rs = stmt.executeQuery(query); 
+            
+      
         } 
         catch(SQLException se)
         {
@@ -77,6 +81,38 @@ public class DatabaseAPI {
         }
         
         return rs;
+    }
+    
+    public void closeDatabase()
+    {
+        
+        try 
+        {
+            if(rs != null)
+            {
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(stmt != null)
+        {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(conn != null)
+        {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }          
     }
     
     /**
@@ -101,7 +137,8 @@ public class DatabaseAPI {
                if(stmt!=null)
                   conn.close();
             }catch(SQLException se){
-            }// do nothing
+                se.printStackTrace();
+            }
             try{
                if(conn!=null)
                   conn.close();
