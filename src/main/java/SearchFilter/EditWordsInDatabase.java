@@ -34,26 +34,14 @@ public class EditWordsInDatabase {
         
         // Check if username and password are valid
         try
-        {      
-            final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/test.txt");
-            final PrintStream printStream2 = new PrintStream(os2);
-            
+        {   
+            // Get id of user in user table
             String selectQuery = "SELECT id from user WHERE username = '" + username + "'";
-            printStream2.println(selectQuery);
-        database = new DatabaseAPI();
-                    printStream2.println(selectQuery);
-
-        ResultSet rs = database.readDatabase(selectQuery);
-                    printStream2.println(selectQuery);
-
-                    rs.next();
+            database = new DatabaseAPI();
+            ResultSet rs = database.readDatabase(selectQuery);
+            rs.next();
             databaseId = rs.getString("id");
-                        printStream2.println("here");
-                        
-            printStream2.println(databaseId);
-
-            printStream2.close();
-                        rs.close();
+            rs.close();
 
 //            while(rs.next())
 //            {
@@ -68,10 +56,6 @@ public class EditWordsInDatabase {
         //Handle errors for JDBC
         se.printStackTrace();
         }    
-        catch (FileNotFoundException ex)
-        {
-            ex.printStackTrace();
-        }
     }
     
     public boolean addWord(String word, String typeOfWord)
@@ -89,8 +73,7 @@ public class EditWordsInDatabase {
                 {
                     wordExists = true;
                     break;
-                }
-                
+                }                
             }
             
             if(!wordExists)

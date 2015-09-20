@@ -71,8 +71,6 @@ public class DatabaseAPI {
         {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query); 
-            
-      
         } 
         catch(SQLException se)
         {
