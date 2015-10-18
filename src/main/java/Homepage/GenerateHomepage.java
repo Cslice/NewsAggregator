@@ -76,8 +76,8 @@ public class GenerateHomepage {
     {
         try
         {                
-            final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/list.txt");
-            final PrintStream printStream2 = new PrintStream(os2);
+//            final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/list.txt");
+//            final PrintStream printStream2 = new PrintStream(os2);
             
             int testCount = 1;
 
@@ -92,7 +92,7 @@ public class GenerateHomepage {
                 // Limit of 10 articles
                 count = 0;
                 
-                printStream2.println("test count" + testCount);
+              //  printStream2.println("test count" + testCount);
                 testCount++;
                 
            
@@ -103,7 +103,7 @@ public class GenerateHomepage {
                     
                     if(!doc.toString().contains("rape"))
                     {
-                         printStream2.println("no rape");
+              //           printStream2.println("no rape");
                     
                         article = new HashMap();                
                         title = entry.getTitle();
@@ -120,12 +120,12 @@ public class GenerateHomepage {
                         
                         count++; 
                         
-                      printStream2.println(article.get("title")); 
+               //       printStream2.println(article.get("title")); 
 //                    printStream2.println(); 
 //                    printStream2.println(article.toString());     
                     }
                     else 
-                        printStream2.println("rape");
+               //         printStream2.println("rape");
 
                         // Limits station to 10 articles
                         if(count == 10)
@@ -135,11 +135,11 @@ public class GenerateHomepage {
 
                 station.setArticleList(articleList);
                 
-                printStream2.println();   
-                printStream2.println();         
+//                printStream2.println();   
+//                printStream2.println();         
             }  
             
-            printStream2.close();
+         //   printStream2.close();
         }
        
         catch(MalformedURLException ex)
