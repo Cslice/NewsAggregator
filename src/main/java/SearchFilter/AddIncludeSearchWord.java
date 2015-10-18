@@ -83,7 +83,6 @@ public class AddIncludeSearchWord extends HttpServlet {
         String typeOfWord = "words_to_include";
         String username = request.getSession(false).getAttribute("username").toString();
 
-        
         final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word.txt");
         final PrintStream printStream2 = new PrintStream(os2);
         

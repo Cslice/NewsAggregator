@@ -92,38 +92,30 @@
           
           <div class="container">
             <h2>List Group With Linked Items</h2>
-            
-           
-            
-            
-            
-            
-            
-            
-
             <!-- Delete words to exclude in search -->
-            <form method="POST" action="DeleteExcludeSearchWord">     
-             <ul class="list-group">
-                <li class="list-group-item">
-                    ex words
-                    <button type="submit" name="word" value="First item" class="btn btn-xs btn-danger">Delete Word</button>
-                </li>
-                <li class="list-group-item">
-                    First item 
-                    <button type="submit" name="word" value="second item" class="btn btn-xs btn-danger">Delete Word</button>
-                </li>
-                <li class="list-group-item">
-                    First item 
-                    <button type="submit" name="word" value="third item" class="btn btn-xs btn-danger">Delete Word</button>
-                </li>     
-             </ul>     
+            <form method="POST" action="EditSearchParams">    
+                <c:if test="${excludeWordList.isEmpty()}">
+                    <h3>No words added</h3>
+                </c:if>
+             
+                <ul class="list-group">
+                   <c:forEach var="word" items="${excludeWordList}"> 
+                       <div class="list-group-item">          
+                               <li class="list-group-item">
+                                   ${word}
+                                   <button type="submit" name="wordToAddOrDelete" value="${word}" class="btn btn-xs btn-danger">Delete Word</button>
+                               </li>
+                       </div>
+                   </c:forEach>
+                </ul>        
+                <input type="hidden" name ="typeOfTransAction" value="DeleteExcludeWord"/>
             </form>
             
             <!-- Add words to exclude in search -->
             <form method="POST" action="EditSearchParams">
               <div class="form-group">
                 <label for="usr">Name:</label>
-                <input type="text" class="form-control" name="wordToAdd">
+                <input type="text" class="form-control" name="wordToAddOrDelete">
                 
                 <br/>
                 
@@ -137,21 +129,23 @@
             <br/>        
             
             <!-- Delete words to include in search -->
-             <form method="POST" action="DeleteIncludeSearchWord">
+             <form method="POST" action="EditSearchParams">   
+                 
+                 <c:if test="${includeWordList.isEmpty()}">
+                    <h3>No words added</h3>
+                </c:if>
+                    
                 <ul class="list-group">
-                   <li class="list-group-item">
-                       In  words
-                       <button type="submit" name="word" value="First item" class="btn btn-xs btn-danger">Delete Word</button>
-                   </li>
-                   <li class="list-group-item">
-                       First item 
-                       <button type="submit" name="word" value="second item" class="btn btn-xs btn-danger">Delete Word</button>
-                   </li>
-                   <li class="list-group-item">
-                       First item 
-                       <button type="submit" name="word" value="third item" class="btn btn-xs btn-danger">Delete Word</button>
-                   </li>     
-                </ul>          
+                   <c:forEach var="word" items="${includeWordList}"> 
+                       <div class="list-group-item">          
+                               <li class="list-group-item">
+                                   ${word}
+                                   <button type="submit" name="wordToAddOrDelete" value="${word}" class="btn btn-xs btn-danger">Delete Word</button>
+                               </li>
+                       </div>
+                   </c:forEach>
+                </ul>        
+                <input type="hidden" name ="typeOfTransAction" value="DeleteIncludeWord"/>
             </form>
             
             
@@ -159,7 +153,7 @@
             <form method="POST" action="EditSearchParams">
               <div class="form-group">
                 <label for="usr">Name asdf:</label>
-                <input type="text" class="form-control" name="wordToAdd">
+                <input type="text" class="form-control" name="wordToAddOrDelete">
                 
                 <br/>
                 
@@ -172,28 +166,7 @@
           
         
           
-         
-        
-        <c:forEach var="station" items="${newsStationList}"> 
-            <div class="list-group-item">          
-                <img src="${station.getImgHtml()}" alt="${station.getName()} photo" style="width:250px;height:100px;"/>
-                <br />
-                <br />
-                <ol>
-                <c:forEach var="article" items="${station.getArticleList()}">
-                    <%--<c:out value="${article.get('title')}"/>--%>
-                    <!--<br />-->
-                    <%--<c:out value="${article.get('link')}"/>--%>
-                    <!--<br />-->
-
-                    <li><a href="${article.get('link')}">${article.get('title')}</a></li>
-    <!--                <br />
-                    <br />-->
-                </c:forEach>
-                </ol>
-            </div>
-        </c:forEach>
-        <br />
+    
         
             
         </div>

@@ -76,7 +76,7 @@ public class EditSearchParams extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String word = request.getParameter("wordToAdd");
+        String word = request.getParameter("wordToAddOrDelete");
         String typeOfTransAction = request.getParameter("typeOfTransAction");
         String typeOfWord = "";
         String username = request.getSession(false).getAttribute("username").toString();
@@ -90,6 +90,7 @@ public class EditSearchParams extends HttpServlet {
                 break;          
             case "DeleteExcludeWord":
                 typeOfWord = "words_to_exclude";
+                editWord.deleteWord(word, typeOfWord);
                 break;      
             case "AddIncludeWord":
                 typeOfWord = "words_to_include";
@@ -97,6 +98,7 @@ public class EditSearchParams extends HttpServlet {
                 break;          
             case "DeleteIncludeWord":
                 typeOfWord = "words_to_include";
+                editWord.deleteWord(word, typeOfWord);
                 break;       
         }
 
@@ -110,7 +112,7 @@ public class EditSearchParams extends HttpServlet {
         
         //printStream2.println(insertQuery);
        
-
+        new GenerateSearchParamsPage().doGet(request, response);
     }
 
     /**

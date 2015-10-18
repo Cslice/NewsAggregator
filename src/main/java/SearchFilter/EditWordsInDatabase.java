@@ -88,7 +88,7 @@ public class EditWordsInDatabase {
 //                rs.updateObject("user_id", databaseId);  
 //                rs.updateRow();
                 
-                
+               
             }
         }
         catch(SQLException se){
@@ -102,5 +102,13 @@ public class EditWordsInDatabase {
            
         return wordExists;
     } 
+    
+    public void deleteWord(String word, String typeOfWord) 
+    {
+        String deleteQuery = "DELETE from " + typeOfWord + " where word='" + word
+                             + "' and user_id=" + databaseId;
+          
+        database.updateDatabase(deleteQuery);    
+    }
     
 }

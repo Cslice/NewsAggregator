@@ -111,7 +111,7 @@
         </c:forEach>
         <br />
         
-                    <a href="editSearchParams.jsp">Edit Search Parameters</a>
+                    <a href="GenerateSearchParamsPage">Edit Search Parameters</a>
 
         </div>
       </div>
