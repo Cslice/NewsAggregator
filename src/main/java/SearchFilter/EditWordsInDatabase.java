@@ -97,6 +97,13 @@ public class EditWordsInDatabase {
         } 
         finally
         {
+            if(rs != null)
+                try {
+                    rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(EditWordsInDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             database.closeDatabase();
         }
            

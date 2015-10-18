@@ -83,17 +83,17 @@ public class GenerateSearchParamsPage extends HttpServlet {
     
     private void setupWordLists(String username) throws IOException
     {
-         final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word.txt");
-            final PrintStream p = new PrintStream(os2);
+//         final OutputStream os2 = new FileOutputStream("/Users/cameronthomas/Desktop/word.txt");
+//            final PrintStream p = new PrintStream(os2);
         
         
-            p.println(username);
+            //p.println(username);
         String query = "SELECT id from user WHERE username = '" + username + "'";
-                            p.println(query);
+         //                   p.println(query);
 
         rs = database.readDatabase(query);
         
-        p.println("After d");
+       // p.println("After d");
 
         
 
@@ -106,7 +106,7 @@ public class GenerateSearchParamsPage extends HttpServlet {
             
             rs = database.readDatabase(query);
                         
-            p.println("asdfdsf" +databaseId);
+          //  p.println("asdfdsf" +databaseId);
 
             
             excludeWordList.clear();
@@ -114,7 +114,7 @@ public class GenerateSearchParamsPage extends HttpServlet {
             while(rs.next())
                 excludeWordList.add(rs.getString("word")); 
            
-            p.println("2");
+         //   p.println("2");
             
             query = "select * from words_to_include WHERE user_id = " + databaseId;
             
@@ -126,10 +126,10 @@ public class GenerateSearchParamsPage extends HttpServlet {
                 includeWordList.add(rs.getString("word"));
              
              
-            p.println("3");
+          //  p.println("3");
 
-                 p.println(excludeWordList.toString());
-            p.println(includeWordList.toString());
+            //     p.println(excludeWordList.toString());
+           // p.println(includeWordList.toString());
         } catch (SQLException ex) {
             Logger.getLogger(GenerateSearchParamsPage.class.getName()).log(Level.SEVERE, null, ex);
         } 
