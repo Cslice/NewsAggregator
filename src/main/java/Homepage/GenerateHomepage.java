@@ -124,7 +124,7 @@ public class GenerateHomepage {
 //                    printStream2.println(); 
 //                    printStream2.println(article.toString());     
                     }
-                    else 
+                     
                //         printStream2.println("rape");
 
                         // Limits station to 10 articles
