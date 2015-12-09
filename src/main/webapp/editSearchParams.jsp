@@ -152,7 +152,6 @@
             <!-- Add words to include in search -->
             <form method="POST" action="EditSearchParams">
               <div class="form-group">
-                <label for="usr">Name asdf:</label>
                 <input type="text" class="form-control" name="wordToAddOrDelete">
                 
                 <br/>
