@@ -1,4 +1,4 @@
-package Login;
+package LoginLogout;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,6 +9,7 @@ package Login;
 import Database.DatabaseAPI;
 import Database.DatabaseInfo;
 import Homepage.GenerateHomepage;
+import TestAndDebug.WriteFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,6 +17,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,25 +42,44 @@ public class SignIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-                
-//        request.getSession(false);
         
-        if(validateLogin(username, password))
+        String username= "";
+        String password = "";
+        
+        // Get the session
+        HttpSession session = request.getSession(true);
+        
+        // New session was created
+        if(session.getAttribute("username") == null &&
+           session.getAttribute("password") == null)
         {
-            // Create new session for user
+            // Get username and password user entered
+            username = request.getParameter("username");
+            password = request.getParameter("password");   
             
-            HttpSession session = request.getSession(true);
+            // Set username and password in seesion
             session.setAttribute("username", username);
-            session.setAttribute("username", username);
-            //session.invalidate();
-                 
-            // Direct user to homepage
-            new GenerateHomepage().generatePage(request, response);  
+            session.setAttribute("password", password);   
         }
+
+        // Session already created
         else
+        {  
+            // Get username and password from request
+           username = session.getAttribute("username").toString();
+           password = session.getAttribute("password").toString();        
+        }
+            
+        // If username and password are valid go to homepage
+        if(validateLogin(username, password))
+            new GenerateHomepage().generatePage(request, response);  
+        
+        // If username and password are invalid go to error page
+        else
+        {
+            session.invalidate();
             response.sendRedirect("invalidLogin.html"); 
+        }
     }
     
     /**

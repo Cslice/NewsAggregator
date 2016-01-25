@@ -22,7 +22,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Discussion Board Homepage</title>
+    <title>News Aggregator</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -71,13 +71,13 @@
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div>         
-            <label class="navbar-brand">Discussion Board</label>
+            <label class="navbar-brand">News Aggregator</label>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href="signIn.html">Sign Out</a></li>
+            <li><a href="Logout">Sign Out</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

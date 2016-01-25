@@ -63,7 +63,9 @@ public class GenerateSearchParamsPage extends HttpServlet {
         
         request.setAttribute("excludeWordList", excludeWordList);
         request.setAttribute("includeWordList", includeWordList);
-        request.getRequestDispatcher("editSearchParams.jsp").forward(request, response);  
+        request.getRequestDispatcher("editSearchParams.jsp").forward(request, response);   
+        
+        //response.sendRedirect("editSearchParams.jsp");
         
     }
 

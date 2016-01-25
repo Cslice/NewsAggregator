@@ -22,7 +22,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Discussion Board Homepage</title>
+    <title>Edit Search Parameters</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -72,13 +72,13 @@
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div>         
-            <label class="navbar-brand">Discussion Board</label>
+            <label class="navbar-brand">Edit Search Parameters</label>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href="signIn.html">Sign Out</a></li>
+            <li><a href="index.jsp">Sign Out</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -91,18 +91,18 @@
       <div class="jumbotron">
           
           <div class="container">
-            <h2>List Group With Linked Items</h2>
+            <h3>Words to Exclude</h3>
             <!-- Delete words to exclude in search -->
             <form method="POST" action="EditSearchParams">    
                 <c:if test="${excludeWordList.isEmpty()}">
-                    <h3>No words added</h3>
+                    <h4>No words added</h4>
                 </c:if>
              
                 <ul class="list-group">
                    <c:forEach var="word" items="${excludeWordList}"> 
                        <div class="list-group-item">          
                                <li class="list-group-item">
-                                   ${word}
+                                   <span>${word}</span>
                                    <button type="submit" name="wordToAddOrDelete" value="${word}" class="btn btn-xs btn-danger">Delete Word</button>
                                </li>
                        </div>
@@ -128,11 +128,12 @@
             <br/>
             <br/>        
             
+            <h3>Words to Include</h3>
             <!-- Delete words to include in search -->
              <form method="POST" action="EditSearchParams">   
                  
                  <c:if test="${includeWordList.isEmpty()}">
-                    <h3>No words added</h3>
+                    <h4>No words added</h4>
                 </c:if>
                     
                 <ul class="list-group">
@@ -163,7 +164,7 @@
           </div>
           
           
-        
+        <a href="SignIn">Back to HomePage</a>
           
     
         

@@ -1,9 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%--<c:if test="${sessionScope != null}" > 
+<c:if test="${sessionScope.username != null}" > 
    <c:redirect url="/SignIn"/>
-</c:if>--%>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Sign In</title>
+    <title>Create Account</title>
 
     <!-- Bootstrap core CSS --> 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,9 +44,9 @@
        
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>      
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>      
         <br />
-        <a href="index.html">Back to sign-in page</a>
+        <a href="index.jsp">Back to sign-in page</a>
       </form>
         
         
