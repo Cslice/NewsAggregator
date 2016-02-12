@@ -121,7 +121,7 @@ public class GenerateHomepage {
                     {
                         for(String word: includeWordList)
                         {
-                            if(!doc.toString().contains(word))
+                            if(!doc.toString().contains(" " + word))
                             {
                                 addArticle = false; 
                                 break;
