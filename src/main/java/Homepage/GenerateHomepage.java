@@ -6,6 +6,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import java.io.FileNotFoundException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.io.FileOutputStream;
@@ -85,13 +86,15 @@ public class GenerateHomepage {
         setupWordLists(username);
         
         try
-        {                
+        {   
+            String test = "";
             for(NewsStation station: newsStationList )
             {
                 feedUrl = station.getRssUrl();
                 articleList = new ArrayList();
                 SyndFeed feed = input.build (new XmlReader(feedUrl));
-                Boolean addWord = true;
+                Boolean addArticle = true;
+                
                 
                 // Count to keep track of number of articles for station
                 // Limit of 10 articles
@@ -101,29 +104,35 @@ public class GenerateHomepage {
                 {
                     link = entry.getLink();                
                     Document doc = Jsoup.connect(link).get();
+                    addArticle = true;
                     
                     for(String word: excludeWordList)
                     {
-                        if(doc.toString().contains(word))
+                        if(doc.toString().contains(" " + word))
                         {
-                            addWord = false; 
+                            addArticle = false; 
+                            test += word + "   " + link + "\n";
                             break;
                         }
                     }
                     
-                    if(addWord)
+                    
+                    if(addArticle)
                     {
                         for(String word: includeWordList)
                         {
                             if(!doc.toString().contains(word))
                             {
-                                addWord = false; 
+                                addArticle = false; 
                                 break;
                             }
                         } 
                     }
                     
-                    if(addWord)
+                    writeFile("/Users/cameronthomas/Desktop/includeWordTest.txt",
+                            includeWordList.toString());
+                    
+                    if(addArticle)
                     {
                         article = new HashMap();                
                         title = entry.getTitle();
@@ -141,9 +150,14 @@ public class GenerateHomepage {
                     if(count == 10)
                         break;             
                 }
+                
+                test += "\n\n\n";
 
+                
                 station.setArticleList(articleList);        
-            }  
+            } 
+            writeFile("/Users/cameronthomas/Desktop/excludeWordTest.txt",
+                            test);
         }   
         catch(MalformedURLException ex)
         {
@@ -226,4 +240,17 @@ public class GenerateHomepage {
         }    
         
     }
+    
+     public static void writeFile(String fileName, String data)
+    {
+        
+        try {
+            final OutputStream os2 = new FileOutputStream(fileName);
+            final PrintStream p = new PrintStream(os2);
+            
+            p.print(data);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }      
+    }   
 }
