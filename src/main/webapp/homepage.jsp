@@ -9,7 +9,7 @@
 
 <%--<c:if test="${sessionScope != null}" > 
    <c:redirect url="/SignIn"/>
-</c:if>--%>
+</c:if>--%> 
 
 <!DOCTYPE html>
 <html lang="en"> 
