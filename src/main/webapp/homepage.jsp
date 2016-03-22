@@ -41,28 +41,6 @@
     <![endif]-->
    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-   
-    <script type="text/javascript">
-        function validateThreadName()
-        {
-           var validThreadName = true;
-           var threadName = $("#threadNameTextbox").val();
-            
-            // Check if text box is empty or is just spaces
-            if (threadName===null || threadName.trim()==="" 
-                    || threadName === undefined) {    
-                validThreadName = false;
-            }
-            
-            return validThreadName;
-        }
-    </script>
-<!--    <style>
-        .fa.fa-spinner.fa-spin {
-    -webkit-animation-timing-function: steps(8, end);
-    animation-timing-function: steps(8, end);
-}
-  </style>-->
   </head>
 
   <body>
@@ -111,7 +89,7 @@
         </c:forEach>
         <br />
         
-                    <a href="GenerateSearchParamsPage">Edit Search Parameters</a>
+         <a href="GenerateSearchParamsPage">Edit Search Parameters</a>
 
         </div>
       </div>

@@ -87,6 +87,7 @@ public class CreateAccount extends HttpServlet {
             insertNewUser(username, password);
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username);
+            session.setAttribute("password", password);
             
             new GenerateHomepage().generatePage(request, response); 
         }
