@@ -78,7 +78,7 @@
           
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href="index.jsp">Sign Out</a></li>
+            <li><a href="Logout">Sign Out</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
