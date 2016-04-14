@@ -86,31 +86,31 @@ public class GenerateHomepage {
         
         try
         {   
-            for(NewsStation station: newsStationList )
+            for(NewsStation newsStation: newsStationList )
             {
-                URL feedUrl = station.getRssUrl();
+                URL rssFeedUrlForNewsStation = newsStation.getRssUrl();
                 List<HashMap<String, String>> articleList = new ArrayList();
-                SyndFeed feed = input.build (new XmlReader(feedUrl));
+                SyndFeed feed = input.build (new XmlReader(rssFeedUrlForNewsStation));
                 Boolean addArticle = true;
                 HashMap<String, String> article;
                 String title;
                 Date date;
                 int count;
-                String link;
+                String articleURL;
 
-                // Count to keep track of number of articles for station
+                // Count to keep track of number of articles for newsStation
                 // Limit of 10 articles
                 count = 0;
            
                 for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) 
                 {
-                    link = entry.getLink();                
-                    Document doc = Jsoup.connect(link).get();
+                    articleURL = entry.getLink();                
+                    Document htmlOfArticle = Jsoup.connect(articleURL).get();
                     addArticle = true;
                     
                     for(String word: wordsToExcludeInArticle)
                     {
-                        if(doc.toString().contains(" " + word))
+                        if(htmlOfArticle.toString().contains(" " + word))
                         {
                             addArticle = false; 
                             break;
@@ -121,7 +121,7 @@ public class GenerateHomepage {
                     {
                         for(String word: wordsToIncludeInArticle)
                         {
-                            if(!doc.toString().contains(" " + word))
+                            if(!htmlOfArticle.toString().contains(" " + word))
                             {
                                 addArticle = false; 
                                 break;
@@ -148,7 +148,7 @@ public class GenerateHomepage {
                         break;             
                 }
                 
-                station.setArticleList(articleList);        
+                newsStation.setArticleList(articleList);        
             } 
         }   
         catch(MalformedURLException ex)
