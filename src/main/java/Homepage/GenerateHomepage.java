@@ -83,28 +83,29 @@ public class GenerateHomepage {
     {
         // 
         setupWordLists(username);
+        URL rssFeedUrlForNewsStation;
         
         try
         {   
             for(NewsStation newsStation: newsStationList )
             {
-                URL rssFeedUrlForNewsStation = newsStation.getRssUrl();
+                rssFeedUrlForNewsStation = newsStation.getRssUrl();
                 List<HashMap<String, String>> articleList = new ArrayList();
                 SyndFeed feed = input.build (new XmlReader(rssFeedUrlForNewsStation));
                 Boolean addArticle = true;
                 HashMap<String, String> article;
                 String title;
                 Date date;
-                int count;
+                int numberOfArticlesAccepted;
                 String articleURL;
 
                 // Count to keep track of number of articles for newsStation
                 // Limit of 10 articles
-                count = 0;
+                numberOfArticlesAccepted = 0;
            
-                for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) 
+                for (SyndEntry articleInNewsStationList : (List<SyndEntry>) feed.getEntries()) 
                 {
-                    articleURL = entry.getLink();                
+                    articleURL = articleInNewsStationList.getLink();                
                     Document htmlOfArticle = Jsoup.connect(articleURL).get();
                     addArticle = true;
                     
@@ -132,19 +133,19 @@ public class GenerateHomepage {
                     if(addArticle)
                     {
                         article = new HashMap();                
-                        title = entry.getTitle();
-                        date = entry.getPublishedDate();
+                        title = articleInNewsStationList.getTitle();
+                        date = articleInNewsStationList.getPublishedDate();
 
                         // Insert article data into HashMap
-                        article.put("title", entry.getTitle());
-                        article.put("link", entry.getLink());
+                        article.put("title", articleInNewsStationList.getTitle());
+                        article.put("link", articleInNewsStationList.getLink());
                         article.put("date", date.toString());
                         articleList.add(article);
 
-                        count++;                       
+                        numberOfArticlesAccepted++;                       
                     }
                     
-                    if(count == 10)
+                    if(numberOfArticlesAccepted == 10)
                         break;             
                 }
                 
