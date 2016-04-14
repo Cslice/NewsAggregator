@@ -84,26 +84,29 @@ public class GenerateHomepage {
         // 
         setupWordLists(username);
         URL rssFeedUrlForNewsStation;
+        List<HashMap<String, String>> articleList;
+        SyndFeed rssFeed;
+        Boolean addArticle;
+        HashMap<String, String> article;
+        String title;
+        Date date;
+        int numberOfArticlesAccepted;
+        String articleURL;
         
         try
         {   
             for(NewsStation newsStation: newsStationList )
             {
                 rssFeedUrlForNewsStation = newsStation.getRssUrl();
-                List<HashMap<String, String>> articleList = new ArrayList();
-                SyndFeed feed = input.build (new XmlReader(rssFeedUrlForNewsStation));
-                Boolean addArticle = true;
-                HashMap<String, String> article;
-                String title;
-                Date date;
-                int numberOfArticlesAccepted;
-                String articleURL;
-
+                articleList = new ArrayList();
+                rssFeed = input.build (new XmlReader(rssFeedUrlForNewsStation));
+                addArticle = true;
+                
                 // Count to keep track of number of articles for newsStation
                 // Limit of 10 articles
                 numberOfArticlesAccepted = 0;
            
-                for (SyndEntry articleInNewsStationList : (List<SyndEntry>) feed.getEntries()) 
+                for (SyndEntry articleInNewsStationList : (List<SyndEntry>) rssFeed.getEntries()) 
                 {
                     articleURL = articleInNewsStationList.getLink();                
                     Document htmlOfArticle = Jsoup.connect(articleURL).get();
