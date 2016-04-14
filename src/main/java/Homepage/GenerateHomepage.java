@@ -42,17 +42,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GenerateHomepage { 
     private List<NewsStation>  newsStationList;
-    private List<HashMap<String, String>> articleList;
-    private HashMap<String, String> article;
-    private ArrayList<String> excludeWordList;
-    private ArrayList<String> includeWordList;
+    private ArrayList<String> wordsToExcludeInArticle;
+    private ArrayList<String> wordsToIncludeInArticle;
     private SyndFeedInput input = new SyndFeedInput();
-    private URL feedUrl;
-    private int count;
-    private String title;
-    private String link;
-    private Date date;
-    private String listItem;
     private String databaseId;
     private DatabaseAPI database;
      
@@ -61,8 +53,8 @@ public class GenerateHomepage {
         newsStationList = new ArrayList();
         setupNewsSationList();
         input = new SyndFeedInput();
-        excludeWordList = new ArrayList();
-        includeWordList = new ArrayList();   
+        wordsToExcludeInArticle = new ArrayList();
+        wordsToIncludeInArticle = new ArrayList();   
     }
  
     public void generatePage(HttpServletRequest request, HttpServletResponse response)
@@ -81,21 +73,31 @@ public class GenerateHomepage {
         }         
     }
     
+    /*
+    * This is a function I wrote for a web app for my final project in my 
+    * Web Engineering 2 class. The web app combined the RSS feeds from 
+    * 5 different news stations and then filters the news based on the 
+    * preferences of the user
+    */
     public void aggregateRssFeeds(String username)
     {
+        // 
         setupWordLists(username);
         
         try
         {   
-            String test = "";
             for(NewsStation station: newsStationList )
             {
-                feedUrl = station.getRssUrl();
-                articleList = new ArrayList();
+                URL feedUrl = station.getRssUrl();
+                List<HashMap<String, String>> articleList = new ArrayList();
                 SyndFeed feed = input.build (new XmlReader(feedUrl));
                 Boolean addArticle = true;
-                
-                
+                HashMap<String, String> article;
+                String title;
+                Date date;
+                int count;
+                String link;
+
                 // Count to keep track of number of articles for station
                 // Limit of 10 articles
                 count = 0;
@@ -106,20 +108,18 @@ public class GenerateHomepage {
                     Document doc = Jsoup.connect(link).get();
                     addArticle = true;
                     
-                    for(String word: excludeWordList)
+                    for(String word: wordsToExcludeInArticle)
                     {
                         if(doc.toString().contains(" " + word))
                         {
                             addArticle = false; 
-                            test += word + "   " + link + "\n";
                             break;
                         }
                     }
-                    
-                    
+                         
                     if(addArticle)
                     {
-                        for(String word: includeWordList)
+                        for(String word: wordsToIncludeInArticle)
                         {
                             if(!doc.toString().contains(" " + word))
                             {
@@ -128,9 +128,6 @@ public class GenerateHomepage {
                             }
                         } 
                     }
-                    
-                    writeFile("/Users/cameronthomas/Desktop/includeWordTest.txt",
-                            includeWordList.toString());
                     
                     if(addArticle)
                     {
@@ -151,13 +148,8 @@ public class GenerateHomepage {
                         break;             
                 }
                 
-                test += "\n\n\n";
-
-                
                 station.setArticleList(articleList);        
             } 
-            writeFile("/Users/cameronthomas/Desktop/excludeWordTest.txt",
-                            test);
         }   
         catch(MalformedURLException ex)
         {
@@ -222,7 +214,7 @@ public class GenerateHomepage {
             
             while(rs.next())
             {
-               excludeWordList.add(rs.getString("word"));
+               wordsToExcludeInArticle.add(rs.getString("word"));
             }
             
             // Get words to include list
@@ -231,7 +223,7 @@ public class GenerateHomepage {
             
             while(rs.next())
             {
-               includeWordList.add(rs.getString("word"));
+               wordsToIncludeInArticle.add(rs.getString("word"));
             }
         }
         catch(SQLException se){
